@@ -1,55 +1,41 @@
-xyplug-sample-uvx
-=================
+# Overview
 
-A minimal Hello World package designed to be executed via `uvx` directly from a Git repository (no PyPI required).
+This is an example Python package which can be downloaded and executed by a single `uvx` command.  It is designed to read JSON from STDIN, and output JSON to STDOUT, as part of a bare-bones simple xyOps Event Plugin.  Example invocation with test data piped in:
 
-Quick start
------------
+```sh
+echo '{"xy":1,"test":[2,3]}' | uvx git+https://github.com/pixlcore/xyplug-sample-uvx.git@v1.0.0
+```
 
-1) Tag the repo to match the version in `pyproject.toml` (currently `1.0.0`):
+Expected output:
 
-   git tag v1.0.0
-   git push origin v1.0.0
+```
+Read JSON from STDIN:
+{
+  "xy": 1,
+  "test": [
+    2,
+    3
+  ]
+}
 
-2) Run it with uvx (pick one):
+{ "xy":1, "code":0 }
+```
 
-   - Inferred entry point (script name equals project name):
+**Note**: xyOps will ignore and pass through the "pretty-printed" JSON output, and only consume the compact message at the end.
 
-     uvx git+https://github.com/<user>/<repo>.git@v1.0.0
+# Instructions
 
-   - Explicit entry point using `--from` (more flexible):
+- Make sure you have a properly-formatted `pyproject.toml` file at the root of your repo.
+- Create `src/YOUR_PACKAGE_NAME` parent dirs (no dashes allowed).
+- Place `__init__.py` and `cli.py` in that directory.
+- Tag the repo to match the version in `pyproject.toml` (currently `1.0.0`):
 
-     uvx --from git+https://github.com/<user>/<repo>.git@v1.0.0 xyplug-sample-uvx
+```sh
+git tag v1.0.0
+git push origin v1.0.0
+```
 
-3) Pass an optional name argument:
-
-   This CLI now reads one JSON line from STDIN and pretty-prints it, then emits a final JSON line:
-
-   echo '{"a":1,"b":[2,3]}' | uvx --from git+https://github.com/<user>/<repo>.git@v1.0.0 xyplug-sample-uvx
-
-   Example output:
-
-   Read JSON from STDIN:
-   {
-     "a": 1,
-     "b": [
-       2,
-       3
-     ]
-   }
-   { "xy":1, "code":0 }
-
-Expected output
----------------
-
-Hello, world! (from xyplug-sample-uvx)
-
-or, with a name:
-
-Hello, Alice! (from xyplug-sample-uvx)
-
-Implementation notes
---------------------
+# Implementation notes
 
 - The console script name is `xyplug-sample-uvx` and maps to `xyplug_sample_uvx.cli:main` via `[project.scripts]` in `pyproject.toml`.
 - The importable Python package uses underscores (`xyplug_sample_uvx`) since hyphens are not valid in module names.
