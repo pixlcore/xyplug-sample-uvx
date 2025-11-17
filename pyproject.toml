@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xyplug-sample-uvx"
+version = "1.0.0"
+description = "A minimal Hello World package runnable via uvx."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Joe", email = "joe@example.com" }
+]
+
+# Works on Python 3.10+
+requires-python = ">=3.10"
+
+# No dependencies required for Hello World
+dependencies = []
+
+[project.scripts]
+# Expose a console script with the SAME name as the project.
+# This lets `uvx git+URL@tag` infer and run it automatically.
+xyplug-sample-uvx = "xyplug_sample_uvx.cli:main"
