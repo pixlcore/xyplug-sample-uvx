@@ -5,13 +5,13 @@ This is an example Python package which can be downloaded and executed by a sing
 Here is the Plugin command for this package:
 
 ```sh
-uvx git+https://github.com/pixlcore/xyplug-sample-uvx.git@v1.0.0
+uvx git+https://github.com/pixlcore/xyplug-sample-uvx.git@v1.0.1
 ```
 
 Here is an example invocation with some test data piped in:
 
 ```sh
-echo '{"xy":1,"test":[2,3]}' | uvx git+https://github.com/pixlcore/xyplug-sample-uvx.git@v1.0.0
+echo '{"xy":1,"test":[2,3]}' | uvx git+https://github.com/pixlcore/xyplug-sample-uvx.git@v1.0.1
 ```
 
 Expected output:
@@ -36,15 +36,17 @@ Read JSON from STDIN:
 - Make sure you have a properly-formatted `pyproject.toml` file at the root of your repo.
 - Create `src/YOUR_PACKAGE_NAME` parent dirs (no dashes allowed).
 - Place `__init__.py` and `cli.py` in that directory.
-- Tag the repo to match the version in `pyproject.toml` (currently `1.0.0`):
+- Tag the repo to match the version in `pyproject.toml` (currently `1.0.1`):
 
 ```sh
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
 # Implementation notes
 
 - The console script name is `xyplug-sample-uvx` and maps to `xyplug_sample_uvx.cli:main` via `[project.scripts]` in `pyproject.toml`.
 - The importable Python package uses underscores (`xyplug_sample_uvx`) since hyphens are not valid in module names.
-- No third-party dependencies are required; JSON parsing uses Python's standard library.
+- Includes one third-party dependency: `requests` (and its transitive deps like `urllib3`),
+  to demonstrate that `uvx` downloads and installs dependencies automatically.
+  The CLI prints a version check to stdout at startup.
